@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}
+Tweet List
+{% endblock %}
+
+{% block content %}
+    <h1 class="text-center m-4">Tweet List</h1>
+    <a href="{% url 'tweet_create' %}" class="btn btn-primary mb-4">Create a Tweet</a>
+
+    <div class="container">
+        <div class="row gap-4 justify-content-center">
+            {% for t in tweet %}
+            <div class="card shadow-lg p-3 mb-4 bg-body rounded" style="width: 20rem;">
+                {% if t.photo %}
+                    <img src="{{ t.photo.url }}" class="card-img-top img-fluid rounded" alt="Tweet Image">
+                {% else %}
+                    <p class="text-muted text-center">No Image Available</p>
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title text-primary">{{ t.user.username }}</h5>
+                    <p class="card-text">{{ t.text }}</p>
+                    {% if t.user == user %}
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'tweet_edit' t.id %}" class="btn btn-sm btn-outline-primary">Edit</a>
+                            <a href="{% url 'tweet_delete' t.id %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
